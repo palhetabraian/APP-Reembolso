@@ -1,12 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 
+import { errorHandling } from './middlewares/error-handling';
+
 const app = express();
 app.use(cors()); // habilitando o cors
 app.use(express.json()); //recuperar os dados com req e res
 
-app.get('/', (req, res) => {
-  res.send('Hello Wolrd!');
-});
+
+app.use(errorHandling); //utilizando o middleware de validacao
 
 export { app };

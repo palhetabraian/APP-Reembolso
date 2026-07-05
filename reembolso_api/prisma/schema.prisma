@@ -5,5 +5,57 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
+}
+
+//define os perfis de usuario
+enum UserRole {
+  employee
+  manager
+}
+
+//categorias de reembolsos
+enum Category {
+  food
+  others
+  services
+  transport
+  accommodation
+}
+
+//criando a primeira tabela (Users)
+model User {
+  id String @id @default(uuid())
+  name String 
+  email String @unique
+  password String
+  
+  role UserRole @default(employee) //usando enum e citando que todos os usuarios vao ser por padrao employee(funcionarios)
+
+  //
+  refunds Refunds[] //Usuario pode ter Refunds(solicitacoes) e vai ser de um para muitos 
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  //nomeando a tabela
+  @@map("users")
+}
+
+//criando tabela de um para muitos Refunds(serviços)
+model Refunds{
+  id String @id @default(uuid())
+  name String
+  amount Float // Quantidade dos produtos
+  category Category //categoria dos pedidos
+  filename String //endereco do arquivo para upload
+
+  userId String @map("user_id")
+  //fazendo o relacionamento
+  user User @relation(fields: [userId], references: [id]) //conectando o userid com o id da tabela de usuarios 
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@map("refunds") //nomeando a tabela
 }

@@ -6,7 +6,7 @@ import { hash } from 'bcrypt';
 import { AppError } from '@/utils/AppError';
 
 class UsersController {
-  async create(req: Request, res: Response) {
+  async create(request: Request, response: Response) {
     //validando os dados do usuario
     const bodySchema = z.object({
       name: z.string().trim().min(2, { message: 'Nome é obrigatorio' }),
@@ -24,7 +24,7 @@ class UsersController {
     });
 
     //pegando os dados validados
-    const { name, email, password, role } = bodySchema.parse(req.body);
+    const { name, email, password, role } = bodySchema.parse(request.body);
 
     //verifica se o email ta cadastrado
     const userWithSameEmail = await prisma.user.findFirst({ where: { email } }); // buscando o primeiro da lista que o email for igual
@@ -45,7 +45,7 @@ class UsersController {
       },
     });
 
-    res.status(201).json();
+    response.status(201).json();
   }
 }
 

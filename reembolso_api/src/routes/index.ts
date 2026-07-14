@@ -6,13 +6,16 @@ import { usersRoutes } from './users-routes';
 import { refundsRoutes } from './refunds-routes';
 import { sessionsRoutes } from './sessions-router';
 
+import { ensureAuthenticated } from '@/middlewares/ensure-authenticated';
+
 const routes = Router();
 
 //Rotas publicas
-routes.use('/users', usersRoutes);
-routes.use('/sessions', sessionsRoutes);
+routes.use('/users', usersRoutes); // rota de usuario disponivel
+routes.use('/sessions', sessionsRoutes); // rota de sessao disponivel
 
 //rotas privadas. somente autenticados podem acessar
-routes.use('/refunds', refundsRoutes);
+routes.use(ensureAuthenticated); //responsavel por todas as rotas abaixo utilizar o middleware de autenticacao
+routes.use('/refunds', refundsRoutes); // deixa a rota de reembolsos disponivel
 
 export { routes };

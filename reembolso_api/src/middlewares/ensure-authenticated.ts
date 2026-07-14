@@ -42,7 +42,7 @@ function ensureAuthenticated(
 
     return next(); //depois dele fazer a validacao do token ele segue a vida com next
   } catch (error) {
-    throw new AppError('Token JWT inválido', 401);
+    throw new AppError('Token JWT inválido', 401); //caso nao tenha acesso retorna 401
   }
 }
 

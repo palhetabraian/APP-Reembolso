@@ -1,3 +1,4 @@
+// responsavel pelas rotas de usuario
 import { Router } from 'express';
 
 import { UsersController } from '@/controllers/users-controller';

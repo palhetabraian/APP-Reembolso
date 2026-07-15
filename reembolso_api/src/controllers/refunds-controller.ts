@@ -33,7 +33,7 @@ class RefundsController {
 
     //antes de cadastrar verifica se o usuario existe
     if (!request.user?.id) {
-      throw new AppError('Nãp autorizado', 401);
+      throw new AppError('Não autorizado', 401);
     }
 
     //insere na tabela o registo
@@ -48,6 +48,11 @@ class RefundsController {
     });
 
     response.status(201).json({ refund });
+  }
+
+  //criando metodo para listar(GET)
+  async index(request: Request, response: Response) {
+    response.json({ message: 'ok' });
   }
 }
 

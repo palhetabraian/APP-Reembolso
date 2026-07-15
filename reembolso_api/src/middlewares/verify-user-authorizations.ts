@@ -15,7 +15,7 @@ function verifyUserAuthorization(role: string[]) {
       !role.includes(request.user.role)
     ) //barrando se a pessoa tem usuario ou nao tem a role pra acessar a rota
     {
-      throw new AppError('Nao autorizado!', 401); //caso nao esteja logado ou nao tenha o role(perfil) para acessar
+      throw new AppError('Nao autorizado', 401); //caso nao esteja logado ou nao tenha o role(perfil) para acessar
     }
 
     return next(); // caso esteja tudo certo continue para acessar a rota

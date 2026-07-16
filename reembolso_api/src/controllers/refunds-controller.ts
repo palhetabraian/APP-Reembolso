@@ -52,7 +52,30 @@ class RefundsController {
 
   //criando metodo para listar(GET)
   async index(request: Request, response: Response) {
-    response.json({ message: 'ok' });
+    // recuperando query parametro opcional
+    const querySchema = z.object({
+      name: z.string().optional().default(''),
+    });
+
+    //recuperando da queryparams
+    const { name } = querySchema.parse(request.query);
+
+    //pesquisa pelo nome
+    const refunds = await prisma.refunds.findMany({
+      where: {
+        user: {
+          name: {
+            contains: name.trim(), // buscando no banco por nome e removendo o espaço
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' }, // mostrando em ordem de data
+      include: {
+        user: true, // deixando o usuario exposto para aparecer com dados
+      },
+    }); // para listar dados da tabela
+
+    response.json({ refunds }); // retorna os rembolsos
   }
 }
 

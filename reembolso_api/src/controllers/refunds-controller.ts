@@ -106,6 +106,24 @@ class RefundsController {
       },
     }); // retorna os rembolsos
   }
+
+  //funcao para mostrar uma especifica
+  //buscando pelo id
+  async show(request: Request, response: Response) {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
+
+    const { id } = paramsSchema.parse(request.params); // recuperando o id pelo parametro
+
+    const refund = await prisma.refunds.findMany({
+      // pegando o primeiro reembolso baseado no id
+      where: { id },
+      include: { user: true },
+    });
+
+    response.json(refund); // mostrando a solicitacao de reembolso pelo queryparams
+  }
 }
 
 export { RefundsController };

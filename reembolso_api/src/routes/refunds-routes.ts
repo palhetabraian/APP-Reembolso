@@ -18,6 +18,13 @@ refundsRoutes.get(
   '/',
   verifyUserAuthorization(['manager']), // somente usuario autorizado pode listar os pedidos(gerente)
   refundsController.index
-); 
+);
+
+//rotas para exibir solicitacao especifica
+refundsRoutes.get(
+  '/:id',
+  verifyUserAuthorization(['employee', 'manager']),
+  refundsController.show // para fazer uma query por id
+);
 
 export { refundsRoutes }; // exporta a rota

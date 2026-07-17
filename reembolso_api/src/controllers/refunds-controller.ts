@@ -55,13 +55,20 @@ class RefundsController {
     // recuperando query parametro opcional
     const querySchema = z.object({
       name: z.string().optional().default(''),
+      page: z.coerce.number().optional().default(1), // define quantas paginas vao vir do banco de dados
+      perPage: z.coerce.number().optional().default(10), // define quantas paginas vao ser exibidas do banco de dados
     });
 
     //recuperando da queryparams
-    const { name } = querySchema.parse(request.query);
+    const { name, page, perPage } = querySchema.parse(request.query);
+
+    //calcula os valores de skip - proximas paginas
+    const skip = (page - 1) * perPage; // multiplicando as paginas
 
     //pesquisa pelo nome
     const refunds = await prisma.refunds.findMany({
+      skip,
+      take: perPage, // pegando os numeros maximos retornados
       where: {
         user: {
           name: {
@@ -75,7 +82,29 @@ class RefundsController {
       },
     }); // para listar dados da tabela
 
-    response.json({ refunds }); // retorna os rembolsos
+    //obter o total de registro para calcular o numero de paginas
+    const totalRecords = await prisma.refunds.count({
+      // conta quantos registro na tabela de refunds
+      where: {
+        user: {
+          name: {
+            contains: name.trim(), //
+          },
+        },
+      },
+    });
+
+    const totalPages = Math.ceil(totalRecords / perPage); //
+
+    response.json({
+      refunds, // retorna registro
+      pagination: {
+        page, // retorna a pagina
+        perPage, //retorna as paginas
+        totalRecords, // retorna o total de records
+        totalPages: totalPages > 0 ? totalPages : 1, // total de paginas
+      },
+    }); // retorna os rembolsos
   }
 }
 

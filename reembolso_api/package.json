@@ -10,14 +10,20 @@
   "description": "API de solicitação de reembolso",
   "dependencies": {
     "@prisma/client": "^6.2.1",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^9.0.3",
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "prisma": "^6.2.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",

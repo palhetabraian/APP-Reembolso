@@ -8,8 +8,10 @@ const TMP_FOLDER = path.resolve(__dirname, '..', '..', 'tmp');
 // para pegar o arquivo da pasta
 const UPLOADS_FOLDER = path.resolve(TMP_FOLDER, 'uploads'); //
 
+const MAX_SIZE = 3; //3mb
+
 //definindo o tamanho do arquivo que vai acertar
-const MAX_FILE_SIZE = 1024 * 1024 * 3; // aceita no maximo 3mb
+const MAX_FILE_SIZE = 1024 * 1024 * MAX_SIZE; // aceita no maximo 3mb
 //definindo imagens que vao ser aceitas
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png']; //passando o formato da imagem
 
@@ -32,5 +34,6 @@ export default {
   UPLOADS_FOLDER,
   MULTER,
   MAX_FILE_SIZE,
+  MAX_SIZE,
   ACCEPTED_IMAGE_TYPES,
 };

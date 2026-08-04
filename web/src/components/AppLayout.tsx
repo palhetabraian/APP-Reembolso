@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router';
+import { Header } from './Header';
 
 export function AppLayout() {
   return (
@@ -8,6 +9,7 @@ export function AppLayout() {
     "
     >
       <main className="p-3 w-full md:w-auto">
+        <Header />
         <Outlet />
       </main>
     </div>

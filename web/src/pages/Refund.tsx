@@ -1,5 +1,6 @@
 //rota para o funcionario fazer os reembolsos
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 import { CATEGORIES_KEYS, CATEGORIES } from '../utils/categories';
 
@@ -15,9 +16,12 @@ export function Refund() {
   const [isLoading, setIsLoading] = useState(false);
   const [filename, setFileName] = useState<File | null>(null);
 
+  const navigate = useNavigate();
+
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     console.log(name, amount, category, filename);
+    navigate('/confirm', {state: {fromSubmit: true}}); //so deixa ir para confirm caso clique no botao
   }
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { use, useState } from 'react';
 
 import { formatCurrency } from '../utils/formatCurrency';
 
@@ -20,12 +20,29 @@ const REFUND_EXAMPLE = {
 
 export function Dashboard() {
   const [name, setName] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalOfPage, setTotalOfPage] = useState(10);
 
   //busca as solicitacoes
   function fetchRefunds(e: React.FormEvent) {
     e.preventDefault();
 
     console.log(name);
+  }
+
+  //vai lidar com a paginacao
+  function handlePagination(action: 'next' | 'previous') {
+    setPage((prevPage) => {
+      if (action === 'next' && prevPage < totalOfPage) {
+        return prevPage + 1;
+      }
+
+      if (action === 'previous' && prevPage > 1) {
+        return prevPage - 1;
+      }
+
+      return prevPage;
+    });
   }
 
   return (
@@ -52,7 +69,12 @@ export function Dashboard() {
         <RefundItem data={REFUND_EXAMPLE} />
       </div>
 
-      <Pagination current={1} total={10} />
+      <Pagination
+        current={page}
+        total={totalOfPage}
+        onNext={() => handlePagination('next')}
+        onPrevious={() => handlePagination('previous')}
+      />
     </div>
   );
 }

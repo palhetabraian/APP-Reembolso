@@ -1,6 +1,9 @@
 import { useState } from 'react';
 
+import searchSvg from '../assets/search.svg';
+
 import { Input } from '../components/Input';
+import { Button } from '../components/Button';
 
 export function Dashboard() {
   const [name, setName] = useState('');
@@ -18,7 +21,7 @@ export function Dashboard() {
 
       <form
         onSubmit={fetchRefunds}
-        className="flex flex-1 items-center justify-between pab-6 border-b-[1px]
+        className="flex flex-1 items-center justify-between pb-6 border-b-[1px]
       border-b-gray-400 md:flex-row gap-2 mt-6
       "
       >
@@ -26,6 +29,10 @@ export function Dashboard() {
           placeholder="Pesquisar pelo nome"
           onChange={(e) => setName(e.target.value)}
         />
+
+        <Button type="submit" variant="icon">
+          <img src={searchSvg} alt="icone de pesquisar" className="w-5" />
+        </Button>
       </form>
     </div>
   );

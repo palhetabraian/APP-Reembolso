@@ -1,6 +1,6 @@
 //rota para o funcionario fazer os reembolsos
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import { CATEGORIES_KEYS, CATEGORIES } from '../utils/categories';
 
@@ -10,18 +10,25 @@ import { Upload } from '../components/Upload';
 import { Button } from '../components/Button';
 
 export function Refund() {
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('');
+  const [name, setName] = useState('teste');
+  const [amount, setAmount] = useState('34');
+  const [category, setCategory] = useState('transport');
   const [isLoading, setIsLoading] = useState(false);
   const [filename, setFileName] = useState<File | null>(null);
 
   const navigate = useNavigate();
 
+  const params = useParams<{ id: string }>();
+
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (params.id) {
+      return navigate(-1);
+    }
+
     console.log(name, amount, category, filename);
-    navigate('/confirm', {state: {fromSubmit: true}}); //so deixa ir para confirm caso clique no botao
+    navigate('/confirm', { state: { fromSubmit: true } }); //so deixa ir para confirm caso clique no botao
   }
 
   return (
@@ -43,6 +50,7 @@ export function Refund() {
         legend="Nome da solicitação"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        disabled={!!params.id}
       />
 
       <div className="flex gap-4">
@@ -51,6 +59,7 @@ export function Refund() {
           legend="Categoria"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
+          disabled={!!params.id}
         >
           {CATEGORIES_KEYS.map((category) => (
             <option key={category} value={category}>
@@ -64,6 +73,7 @@ export function Refund() {
           required
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          disabled={!!params.id}
         />
       </div>
 
@@ -73,7 +83,7 @@ export function Refund() {
       />
 
       <Button type="submit" isLoading={isLoading}>
-        Enviar
+        {params.id ? 'Voltar' : 'Enviar'}
       </Button>
     </form>
   );

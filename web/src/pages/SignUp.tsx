@@ -1,6 +1,21 @@
 import { useState } from 'react';
+import { z, ZodError } from 'zod';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
+
+const signUpSchema = z
+  .object({
+    name: z.string().trim().min(1, { message: 'Informe o nome' }),
+    email: z.string().email({ message: 'E-mail inválido' }),
+    password: z
+      .string()
+      .min(6, { message: 'Senha deve ter pelo menos 6 dígitos' }),
+    passwordConfirm: z.string({ message: 'Confirme a senha' }),
+  })
+  .refine((data) => data.password === data.passwordConfirm, {
+    message: 'As senhas não são iguais',
+    path: ['passwordConfirm'],
+  });
 
 export function SignUp() {
   const [name, setName] = useState('');
@@ -12,7 +27,25 @@ export function SignUp() {
   //funcao responsavel por recuperar o evento do form
   function onSubmit(e: React.FormEvent) {
     e.preventDefault(); // tirando o reload da pagina
-    console.log(name, email, password, passwordConfirm);
+
+    try {
+      setIsLoading(true); // ativa o carregamento
+
+      const data = signUpSchema.parse({
+        name,
+        email,
+        password,
+        passwordConfirm,
+      });
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return alert(error.issues[0].message);
+      }
+
+      alert('Não foi possível cadastrar!');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (

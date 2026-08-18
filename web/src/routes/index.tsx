@@ -1,6 +1,8 @@
 //centralizando todas as rotas
 import { BrowserRouter } from 'react-router';
 
+import { useAuth } from '../hooks/useAuth';
+
 import { AuthRoutes } from './AuthRoutes';
 import { ManagerRoutes } from './ManagerRoutes';
 import { EmployeeRoutes } from './EmployeeRoutes';
@@ -16,6 +18,8 @@ const session = {
 };
 
 export function Routes() {
+  const context = useAuth();
+  console.log(context);
   //retorna a rota baseado na role do usuario
   function Route() {
     switch (session.user.role) {

@@ -11,21 +11,14 @@ import { Loading } from '../components/Loading';
 
 const isLoading = false;
 
-const session = {
-  user: {
-    role: '',
-  },
-};
-
 export function Routes() {
-  const context = useAuth();
-  console.log(context);
+  const { session } = useAuth();
   //retorna a rota baseado na role do usuario
   function Route() {
-    switch (session.user.role) {
+    switch (session?.user.role) {
       case 'employee':
         return <EmployeeRoutes />;
-      case 'manager':
+      case 'manager': 
         return <ManagerRoutes />;
 
       default:

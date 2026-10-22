@@ -38,7 +38,7 @@ class SessionsController {
 
     const { password: _, ...userWithoutPassword } = user; // separando o password de todo restante para nao trazer a senha
 
-    response.json({ token, userWithoutPassword });
+    response.json({ token, user: userWithoutPassword });
   }
 }
 

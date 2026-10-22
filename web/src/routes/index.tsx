@@ -18,7 +18,7 @@ export function Routes() {
     switch (session?.user.role) {
       case 'employee':
         return <EmployeeRoutes />;
-      case 'manager': 
+      case 'manager':
         return <ManagerRoutes />;
 
       default:
